@@ -1,39 +1,70 @@
-name: como usar variaveis de ambiente
-on:
-  workflow_dispatch:
+# name: como usar variaveis de ambiente
+# on:
+#   workflow_dispatch:
+# env:
+#   ENV_WORKFLOW: "Valor WORKFLOW"
+# jobs:
+#   teste-env:
+#     runs-on: ubuntu-latest
+#     env:
+#       ENV_JOB: "Valor JOB teste-env"
+#     steps:
+#       - name: Execução
+#         env:
+#           ENV_ACTION: "Valor Actiion - Execução"
+#         run: |
+#           echo "$ENV_WORKFLOW"
+#           echo "$ENV_JOB"
+#           echo "$ENV_ACTION"
+#       - name: Execução 2
+#         env:
+#           ENV_ACTION_2: "Valor Actiion - Segunda Execução"
+#         run: |
+#           echo "$ENV_WORKFLOW"
+#           echo "$ENV_JOB"
+#           echo "$ENV_ACTION"    
+#           echo "$ENV_ACTION_2"
+#   teste-env-2:
+#     runs-on: ubuntu-latest
+#     env:
+#       ENV_JOB_2: "Segundo Valor JOB teste-env"
+#     steps:
+#       - name: Execução
+#         run: |
+#           echo "$ENV_WORKFLOW"
+#           echo "$ENV_JOB"
+#           vecho "$ENV_JOB_2"
+
+name: Como usar variavel de ambiente e contexto do GitHub Actions
+on: 
+    push:
+        branches: [main]
 env:
   ENV_WORKFLOW: "Valor WORKFLOW"
 jobs:
-  teste-env:
+  contextos:
     runs-on: ubuntu-latest
     env:
-      ENV_JOB: "Valor JOB teste-env"
+        ENV_JOB: "Valor JOB CONTEXT"
     steps:
-      - name: Execução
+      - name: Contexto github
         env:
-          ENV_ACTION: "Valor Actiion - Execução"
-        run: |
-          echo "$ENV_WORKFLOW"
-          echo "$ENV_JOB"
-          echo "$ENV_ACTION"
-      - name: Execução 2
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Contexto env
         env:
-          ENV_ACTION_2: "Valor Actiion - Segunda Execução"
-        run: |
-          echo "$ENV_WORKFLOW"
-          echo "$ENV_JOB"
-          echo "$ENV_ACTION"    
-          echo "$ENV_ACTION_2"
-  teste-env-2:
-    runs-on: ubuntu-latest
-    env:
-      ENV_JOB_2: "Segundo Valor JOB teste-env"
-    steps:
-      - name: Execução
-        run: |
-          echo "$ENV_WORKFLOW"
-          echo "$ENV_JOB"
-          vecho "$ENV_JOB_2"
-
-                
+          ENV_CONTEXT: ${{ toJson(env) }}
+        run: echo "$ENV_CONTEXT"
+      - name: Contexto job
+        env:
+          JOB_CONTEXT: ${{ toJson(job) }}
+        run: echo "$JOB_CONTEXT"
+      - name: Contexto steps
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
+      - name: Contexto runner
+        env:
+          RUNNER_CONTEXT: ${{ toJson(runner) }}
+        run: echo "$RUNNER_CONTEXT"                
   
