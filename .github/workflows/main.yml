@@ -66,5 +66,13 @@ jobs:
       - name: Contexto runner
         env:
           RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"                
+        run: echo "$RUNNER_CONTEXT"      
+      - name: Contexto envs
+        env:
+          RUNNER_VARS: ${{ toJson(vars) }}
+        run: echo "$RUNNER_VARS"  
+      - name: Contexto vars
+        run: echo "${{ vars.VARS_CONTEXT}}"  
+                         
+                 
   
